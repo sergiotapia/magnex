@@ -1,15 +1,49 @@
 defmodule Magnex.Crawlers.Rarbg do
-  import Logger
+  require Logger
 
   @api_url "https://torrentapi.org/pubapi_v2.php"
 
+  @doc """
+  Fetches the latest torrents added the rarbg api.
+
+  ## Examples
+
+      iex> Magnex.Crawlers.Rarbg.latest
+      {:ok, [%Torrent{}...]}
+
+  """
+  @spec latest() :: {:ok, list(Torrent.t())}
   def latest do
     valid_token = token()
     url = "#{@api_url}?token=#{valid_token}&mode=list&limit=100&format=json_extended&ranked=0"
-    perform_request(url) |> IO.inspect()
-    :timer.sleep(1)
+
+    {:ok, data} = perform_request(url)
+
+    torrents =
+      Enum.map(data["torrent_results"], fn tdata ->
+        %Torrent{
+          title: tdata["title"],
+          magnet_url: tdata["download"],
+          seeders: tdata["seeders"],
+          leechers: tdata["leechers"],
+          created: tdata["pubdate"],
+          size: tdata["size"]
+        }
+      end)
+
+    {:ok, torrents}
   end
 
+  @doc """
+  Performs a search given a term.
+
+  ## Examples
+
+      iex> Magnex.Crawlers.Rarbg.search("big buck bunny")
+      {:ok, [%Torrent{}...]}
+
+  """
+  @spec search(String.t()) :: {:ok, list(Torrent.t())}
   def search(term) do
     valid_token = token()
     encoded_term = URI.encode(term)
@@ -19,20 +53,30 @@ defmodule Magnex.Crawlers.Rarbg do
         encoded_term
       }"
 
-    perform_request(url) |> IO.inspect()
-    :timer.sleep(1)
+    {:ok, data} = perform_request(url)
+
+    torrents =
+      Enum.map(data["torrent_results"], fn tdata ->
+        %Torrent{
+          title: tdata["title"],
+          magnet_url: tdata["download"],
+          seeders: tdata["seeders"],
+          leechers: tdata["leechers"],
+          created: tdata["pubdate"],
+          size: tdata["size"]
+        }
+      end)
+
+    {:ok, torrents}
   end
 
-  @spec token() :: {:ok, String.t()} | {:error, String.t()}
-  def token do
+  defp token do
     url = "#{@api_url}?get_token=get_token"
     {:ok, data} = perform_request(url)
-    :timer.sleep(1)
     data["token"]
   end
 
-  @spec perform_request(String.t()) :: {:ok, map()} | {:error, String.t()}
-  def perform_request(url) do
+  defp perform_request(url) do
     case System.get_env("MAGNEX_APP_NAME") do
       nil ->
         error =
@@ -49,7 +93,9 @@ defmodule Magnex.Crawlers.Rarbg do
           {'User-Agent', 'magnex'}
         ]
 
+        :timer.sleep(4)
         {:ok, {{_http, 200, 'OK'}, _headers, body}} = :httpc.request(:get, {url, headers}, [], [])
+
         JSON.decode(body)
     end
   end

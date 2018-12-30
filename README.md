@@ -70,3 +70,4 @@ Here's a list of supported sites and APIs. If one isn't working, open up an issu
 for us.
 
 - rarbg
+- leetx

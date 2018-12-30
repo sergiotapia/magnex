@@ -93,7 +93,9 @@ defmodule Magnex.Crawlers.Rarbg do
           {'User-Agent', 'magnex'}
         ]
 
-        :timer.sleep(4)
+        Process.sleep(2300)
+
+        Logger.info("[rarbg] Web request: #{url}")
         {:ok, {{_http, 200, 'OK'}, _headers, body}} = :httpc.request(:get, {url, headers}, [], [])
 
         JSON.decode(body)

@@ -21,7 +21,8 @@ defmodule Magnex.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:jason, "~> 1.1", only: [:dev, :test]}
+      {:jason, "~> 1.1", only: [:dev, :test]},
+      {:floki, "~> 0.20.4"}
     ]
   end
 end

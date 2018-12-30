@@ -5,13 +5,11 @@ on the web.
 
 ## Dependencies
 
-**It has no dependencies!**
-
 This library uses Erlang's built in httpc http/1.1 client to perform all web requests.
 
-We also require a JSON parser, which you will configure in your app and tell Magnex about.
+A JSON parser, which you will configure in your app and tell Magnex about.
 
-We won't add more deps to your project. Period.
+A HTML parser, Floki.
 
 ## Setup
 

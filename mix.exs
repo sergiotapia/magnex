@@ -11,6 +11,8 @@ defmodule Magnex.MixProject do
 
       # Docs
       name: "Magnex",
+      description: description(),
+      package: package(),
       source_url: "https://github.com/sergiotapia/magnex",
       homepage_url: "https://github.com/sergiotapia/magnex",
       docs: [
@@ -24,6 +26,21 @@ defmodule Magnex.MixProject do
   def application do
     [
       extra_applications: [:logger, :inets, :ssl]
+    ]
+  end
+
+  defp description do
+    """
+    This library helps you search for torrents from multiple popular websites and
+    APIs on the web.
+    """
+  end
+
+  defp package do
+    [
+      maintainers: ["Sergio Tapia"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/sergiotapia/magnex"}
     ]
   end
 

@@ -1,4 +1,8 @@
 defmodule Magnex.Crawlers.Yts do
+  @moduledoc """
+  Provides access to latest and search for Yts.am torrents.
+  """
+
   require Logger
 
   @site_url "https://yts.am"
@@ -15,7 +19,7 @@ defmodule Magnex.Crawlers.Yts do
   @spec latest() :: {:ok, list(Torrent.t())}
   def latest do
     yts_links =
-      for i <- [1] do
+      for i <- [1, 2] do
         {:ok, html} = perform_request("#{@site_url}/browse-movies?page=#{i}")
 
         html

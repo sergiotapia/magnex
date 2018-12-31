@@ -1,4 +1,8 @@
 defmodule Magnex.Crawlers.Rarbg do
+  @moduledoc """
+  Provides access to latest and search for Rarbg torrents.
+  """
+
   require Logger
 
   @api_url "https://torrentapi.org/pubapi_v2.php"

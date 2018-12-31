@@ -1,4 +1,8 @@
 defmodule Magnex.Crawlers.Leetx do
+  @moduledoc """
+  Provides access to latest and search for 1337x torrents.
+  """
+
   require Logger
 
   @site_url "https://1337x.to"

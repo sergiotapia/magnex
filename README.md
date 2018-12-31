@@ -17,7 +17,9 @@ A HTML parser, Floki.
 
 Add the library to your `mix.exs` file.
 
-TODO
+```elixir
+{:magnex, "~> 0.1.0"}
+```
 
 ### Tell Magnex about your JSON parser.
 
